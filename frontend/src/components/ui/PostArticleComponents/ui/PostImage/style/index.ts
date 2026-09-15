@@ -8,17 +8,6 @@ const pulse = keyframes`
   50%      { opacity: 0.5; }
 `;
 
-const scrollAnimation = keyframes`
-  0% {
-    opacity: 0;
-    transform: translate(0, 20%) scale(0.5);
-  }
-  100% {
-    opacity: 1;
-    transform: translate(0, 0) scale(1);
-  }
-`;
-
 export const Skeleton = styled.div`
   position: absolute;
   inset: 0;
@@ -40,7 +29,6 @@ export const StyledImage = styled(Image)<{
   object-fit: contain;
   transition: opacity 0.3s ease;
   opacity: ${({ $isLoading }) => ($isLoading ? 0 : 1)};
-  animation: ${scrollAnimation} 800ms cubic-bezier(0.4, 0, 0.25, 1);
 
   ${({ $zoomed }) =>
 		$zoomed &&

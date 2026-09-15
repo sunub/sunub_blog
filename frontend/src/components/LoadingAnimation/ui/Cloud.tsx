@@ -173,7 +173,6 @@ export function CloudAnime({ id, startPosition, duration }: CloudProps) {
 				</motion.div>
 			</AnimatePresence>
 
-			{/* 여러 개의 구름 레이어 추가 (더 자연스러운 깊이감) */}
 			<AnimatePresence mode="wait">
 				<motion.div
 					key={`${cloudKey}-secondary`}

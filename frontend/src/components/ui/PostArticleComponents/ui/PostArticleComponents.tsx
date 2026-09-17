@@ -92,9 +92,7 @@ function createHeadingComponent(level: number) {
 		const slug = slugify(textContent);
 		const header = getHeaderByLevel(level);
 		return createElement(header, { id: slug }, [
-			createElement(LinkAnchor, { href: `#${slug}`, key: `${slug}` }, [
-				createElement(LinkIcon, { key: `${slug}-icon` }),
-			]),
+			createElement(LinkAnchor, { href: `#${slug}`, key: `${slug}` }),
 			createElement(
 				"span",
 				{ key: `${slug}-content`, className: "post-heading-titles" },

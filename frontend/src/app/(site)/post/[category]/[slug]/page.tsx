@@ -2,26 +2,14 @@ import { resolveSitePathUrl, resolveSiteUrl } from "@sunub/contracts";
 import type { FrontMatter, PostCategory } from "@sunub/types";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import React from "react";
 import CustomMDXRemoteComponents from "@/components/ui/customMdxRemote";
 import { NotFoundError } from "@/shared/error";
 import { Wave } from "@/widgets/Wave";
 import { getAllPosts } from "./api/getAllPosts";
 import { getPostContentByCategoryAndSlug } from "./api/getPostContentByCategoryAndSlug";
 import { ClientArticle } from "./ClientAritcle";
-import {
-	ArticleHeader,
-	ArticleRootWrapper,
-	ArticleWrapper,
-	HeaderEyebrow,
-	HeaderMetaRow,
-	HeaderSummary,
-	HeaderTag,
-	HeaderTagList,
-	Main,
-	PostTitle,
-	Time,
-} from "./page.style";
+import { HeaderSection } from "./components/HeaderSection";
+import { ArticleRootWrapper, ArticleWrapper, Main } from "./page.style";
 
 export const dynamicParams = false;
 
@@ -34,11 +22,6 @@ type Params = Promise<{
 	category: PostCategory;
 	slug: string;
 }>;
-
-const formatCategoryLabel = (category: FrontMatter["category"]) =>
-	category
-		.replace(/-/g, " ")
-		.replace(/\b\w/g, (letter) => letter.toUpperCase());
 
 const parseIsoDate = (
 	dateString: FrontMatter["date"] | undefined,
@@ -128,55 +111,6 @@ export async function generateMetadata({
 			description: "요청하신 콘텐츠를 불러오는 중 오류가 발생했습니다.",
 		};
 	}
-}
-
-async function HeaderSection({ frontmatter }: { frontmatter: FrontMatter }) {
-	const { title, date, summary, tags, category } = frontmatter;
-	const publishDateIso = parseIsoDate(date);
-	if (!publishDateIso) {
-		return (
-			<ArticleHeader>
-				<HeaderEyebrow>{formatCategoryLabel(category)}</HeaderEyebrow>
-				<PostTitle data-testid={"post-article__main-title"}>{title}</PostTitle>
-				{summary ? <HeaderSummary>{summary}</HeaderSummary> : null}
-				<React.Suspense fallback={<p>...</p>}>
-					<HeaderMetaRow>
-						<Time dateTime="">날짜 정보 없음</Time>
-						<HeaderTagList>
-							{tags.map((tag) => (
-								<HeaderTag key={tag}>{tag}</HeaderTag>
-							))}
-						</HeaderTagList>
-					</HeaderMetaRow>
-				</React.Suspense>
-			</ArticleHeader>
-		);
-	}
-
-	const publishDate = new Date(publishDateIso);
-	return (
-		<ArticleHeader>
-			<HeaderEyebrow>{formatCategoryLabel(category)}</HeaderEyebrow>
-			<PostTitle data-testid={"post-article__main-title"}>{title}</PostTitle>
-			{summary ? <HeaderSummary>{summary}</HeaderSummary> : null}
-			<React.Suspense fallback={<p>...</p>}>
-				<HeaderMetaRow>
-					<Time dateTime={publishDateIso}>
-						{new Intl.DateTimeFormat("ko-KR", {
-							year: "numeric",
-							month: "long",
-							day: "numeric",
-						}).format(publishDate)}
-					</Time>
-					<HeaderTagList>
-						{tags.map((tag) => (
-							<HeaderTag key={tag}>{tag}</HeaderTag>
-						))}
-					</HeaderTagList>
-				</HeaderMetaRow>
-			</React.Suspense>
-		</ArticleHeader>
-	);
 }
 
 async function Page({ params }: { params: Params }) {

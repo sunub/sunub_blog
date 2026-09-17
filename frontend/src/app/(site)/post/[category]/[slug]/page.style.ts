@@ -34,7 +34,7 @@ export const ArticleHeader = styled.div`
 
   margin-left: auto;
   margin-right: auto;
-  padding: 4rem 0 3rem;
+  padding: 4rem 3rem;
   gap: 1.25rem;
 `;
 
